@@ -6,11 +6,11 @@
   "scripts": {
     "test": "jest",
     "dev": "rm -r ./dist && concurrently \"tsc --w --p tsconfig.build.json\" \"nodemon --delay 1 ./dist/index.js\"",
-    "build": "rm -r ./dist && tsc --p tsconfig.build.json",
-    "pack": "cp ./package.json ./dist/package.json && claudia pack --source ./dist --output ./dist/handler.zip --force",
-    "deploy": "pushd ./terraform && terraform init && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform plan && terraform apply --auto-approve && terraform output --json > terraform-output.json",
-    "destroy": "pushd ./terraform && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform destroy --auto-approve",
-    "aws": "npm run build && npm run pack && npm run deploy"
+    "build": "rm -r ./dist; tsc --p tsconfig.build.json",
+    "pack": "cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/package-lock.json && pushd ./dist && npm ci --production && npm dedupe && zip -r handler.zip .",
+    "tf:deploy": "pushd ./terraform && terraform init && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform plan && terraform apply --auto-approve && terraform output --json > terraform-output.json",
+    "tf:destroy": "pushd ./terraform && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform destroy --auto-approve",
+    "deploy": "npm run build && npm run pack && npm run tf:deploy"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,6 @@
     "@types/koa": "^2.11.6",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.4.1",
-    "claudia": "^5.12.0",
     "concurrently": "^5.3.0",
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
