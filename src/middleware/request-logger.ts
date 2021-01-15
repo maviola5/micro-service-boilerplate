@@ -8,6 +8,6 @@ export const requestLogger = () => async (ctx: Context, next: Next) => {
     await next();
   } finally {
     const ms = Date.now() - start;
-    logger.info(`Request End ${ctx.method} ${ctx.url} Duration: ${ms}ms`);
+    logger.info(`Request End - ${ctx.method} ${ctx.url} - Duration: ${ms}ms`);
   }
 };
