@@ -16,8 +16,8 @@ resource "aws_iam_role" "execution_role" {
   })
 }
 
-resource "aws_iam_role_policy" "role_policy" {
-  name = "${local.function_name}-role-policy"
+resource "aws_iam_role_policy" "policy" {
+  name = "${aws_iam_role.execution_role.name}-policy"
   role = aws_iam_role.execution_role.id
   policy = jsonencode({
     "Version" : "2012-10-17",
