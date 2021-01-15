@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "rm -r ./dist && concurrently \"tsc --w --p tsconfig.build.json\" \"nodemon --delay 1 ./dist/index.js\"",
-    "build": "rm -r ./dist && tsc --p tsconfig.build.json && mv ./dist/environments/environment.prod.js ./dist/environments/environment.js",
+    "build": "rm -r ./dist && tsc --p tsconfig.build.json",
     "pack": "cp ./package.json ./dist/package.json && claudia pack --source ./dist --output ./dist/handler.zip --force",
     "deploy": "pushd ./terraform && terraform init && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform plan && terraform apply --auto-approve && terraform output --json > terraform-output.json",
     "destroy": "pushd ./terraform && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform destroy --auto-approve",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.826.0",
+    "dotenv": "^8.2.0",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",

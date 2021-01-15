@@ -33,7 +33,7 @@ resource "aws_lambda_function" "function" {
 
   environment {
     variables = {
-      foo = "bar"
+      NODE_ENV = "production"
     }
   }
 }
