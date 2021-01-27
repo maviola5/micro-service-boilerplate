@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest",
-    "dev": "rm -r ./dist && concurrently \"tsc --w --p tsconfig.build.json\" \"nodemon --delay 1 ./dist/index.js\"",
+    "dev": "rm -r ./dist; concurrently \"tsc --w --p tsconfig.build.json\" \"nodemon --delay 1 ./dist/index.js\"",
     "build": "rm -r ./dist; tsc --p tsconfig.build.json",
     "pack": "cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/package-lock.json && pushd ./dist && npm ci --production && npm dedupe && zip -r handler.zip .",
     "tf:deploy": "pushd ./terraform && terraform init && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform plan && terraform apply --auto-approve && terraform output --json > terraform-output.json",
