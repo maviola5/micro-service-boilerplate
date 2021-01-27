@@ -5,12 +5,11 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest",
+    "build": "rm -r ./dist; webpack && pushd ./dist && zip -r handler.zip .",
     "dev": "rm -r ./dist; concurrently \"tsc --w --p tsconfig.build.json\" \"nodemon --delay 1 ./dist/index.js\"",
-    "build": "rm -r ./dist; tsc --p tsconfig.build.json",
-    "pack": "cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/package-lock.json && pushd ./dist && npm ci --production && npm dedupe && zip -r handler.zip .",
     "tf:deploy": "pushd ./terraform && terraform init && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform plan && terraform apply --auto-approve && terraform output --json > terraform-output.json",
     "tf:destroy": "pushd ./terraform && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform destroy --auto-approve",
-    "deploy": "npm run build && npm run pack && npm run tf:deploy"
+    "deploy": "npm run build2 && npm run tf:deploy"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +23,10 @@
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
     "ts-jest": "^26.4.4",
-    "typescript": "^4.1.3"
+    "ts-loader": "^8.0.14",
+    "typescript": "^4.1.3",
+    "webpack": "^5.18.0",
+    "webpack-cli": "^4.4.0"
   },
   "dependencies": {
     "aws-sdk": "^2.826.0",
