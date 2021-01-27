@@ -9,7 +9,7 @@
     "dev": "rm -r ./dist; concurrently \"tsc --w --p tsconfig.build.json\" \"nodemon --delay 1 ./dist/index.js\"",
     "tf:deploy": "pushd ./terraform && terraform init && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform plan && terraform apply --auto-approve && terraform output --json > terraform-output.json",
     "tf:destroy": "pushd ./terraform && terraform workspace select $AWS_PROFILE || terraform workspace new $AWS_PROFILE && terraform destroy --auto-approve",
-    "deploy": "npm run build2 && npm run tf:deploy"
+    "deploy": "npm run build && npm run tf:deploy"
   },
   "keywords": [],
   "author": "",
